@@ -1,0 +1,11 @@
+.page-not-found {
+    display: grid;
+    place-content: center;
+    min-height: 100vh;
+
+    h1 {
+        font-size: 3rem;
+        color: royalblue;
+        text-transform: uppercase;
+    }
+}

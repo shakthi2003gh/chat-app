@@ -1,5 +1,6 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, signOut } from "firebase/auth";
 import { getFirestore, onSnapshot } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 
@@ -13,6 +14,19 @@ const app = initializeApp({
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 });
 
+// >authentication
+export const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+export function login() {
+  signInWithPopup(auth, provider);
+}
+
+export function logout() {
+  signOut(auth);
+}
+
+// >file store
 const db = getFirestore(app);
 const messagesColRef = collection(db, "messages");
 

@@ -1,7 +1,9 @@
+@forward "loginPage";
 @forward "header";
 @forward "chatArea";
 @forward "compose";
 @forward "button";
+@forward "pageNotFound";
 
 html {
   min-width: 375px;
