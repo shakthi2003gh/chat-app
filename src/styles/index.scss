@@ -1,6 +1,11 @@
 @forward "header";
+@forward "chatArea";
 @forward "compose";
 @forward "button";
+
+html {
+  min-width: 375px;
+}
 
 body {
   padding: 0;
