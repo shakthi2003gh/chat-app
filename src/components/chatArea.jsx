@@ -14,13 +14,13 @@ const ChatArea = () => {
       setMessages(messages);
     }
 
+    onAuthStateChanged(auth, (user) => {
+      setUid(user.uid);
+    });
+
     setmessage();
     scrollDownRef.current.scrollIntoView({ behavior: "smooth" });
   }, []);
-
-  onAuthStateChanged(auth, (user) => {
-    setUid(user.uid);
-  });
 
   return (
     <div className="chat">

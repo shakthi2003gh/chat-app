@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { signInWithPopup, signOut } from "firebase/auth";
-import { getDocs, getFirestore } from "firebase/firestore";
+import { addDoc, getDocs, getFirestore } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 
 // Initialize Firebase
@@ -36,4 +36,8 @@ export function getMessages() {
     .catch((e) => console.log(e));
 
   return messages;
+}
+
+export function sendMessage(id, text) {
+  addDoc(messagesColRef, { id, text });
 }
