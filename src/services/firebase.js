@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { signInWithPopup, signOut } from "firebase/auth";
-import { getFirestore, onSnapshot } from "firebase/firestore";
+import { getDocs, getFirestore } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 
 // Initialize Firebase
@@ -31,7 +31,9 @@ const db = getFirestore(app);
 const messagesColRef = collection(db, "messages");
 
 export function getMessages() {
-  onSnapshot(messagesColRef, (snap) => {
-    console.log(snap);
-  });
+  const messages = getDocs(messagesColRef)
+    .then((snapshot) => snapshot.docs.map((doc) => doc.data()))
+    .catch((e) => console.log(e));
+
+  return messages;
 }
