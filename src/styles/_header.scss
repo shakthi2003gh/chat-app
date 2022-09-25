@@ -16,20 +16,5 @@ header {
         font-weight: bold;
         text-transform: uppercase;
     }
-
-    button {
-        font-size: 1rem;
-        padding: .4rem 1rem;
-        border: 2px solid;
-        border-radius: 5px;
-        color: royalblue;
-        background-color: whitesmoke;
-
-        &:hover {
-            color: whitesmoke;
-            background-color: royalblue;
-            cursor: pointer;
-        }
-    }
 }
 
