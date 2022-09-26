@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, getDocs, getFirestore } from "firebase/firestore";
+import { addDoc, getFirestore, serverTimestamp } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 
 // Initialize Firebase
@@ -28,16 +28,14 @@ export function logout() {
 
 // >file store
 const db = getFirestore(app);
-const messagesColRef = collection(db, "messages");
+export const messagesColRef = collection(db, "messages");
 
-export function getMessages() {
-  const messages = getDocs(messagesColRef)
-    .then((snapshot) => snapshot.docs.map((doc) => doc.data()))
-    .catch((e) => console.log(e));
-
-  return messages;
-}
-
-export function sendMessage(id, text) {
-  addDoc(messagesColRef, { id, text });
+export function sendMessage({ id, name, profileImg }, text) {
+  addDoc(messagesColRef, {
+    id,
+    name,
+    profileImg,
+    text,
+    createAt: serverTimestamp(),
+  });
 }

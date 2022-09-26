@@ -17,16 +17,20 @@
 
     .messages {
         display: grid;
-        gap: .5rem;
+        gap: 1.5rem;
         max-width: 800px;
         padding: 1rem;
         margin: 0 auto;
-
-        .message {
+        
+        .message-group {
+            position: relative;
+            display: flex;
+            gap: 10px;
             font-size: 1.2rem;
             text-transform: capitalize;
             width: fit-content;
-            padding: .15rem .6rem;
+            padding: .4rem .6rem;
+            padding-left: .4rem;
             border-radius: 5px;
             
             &.received {
@@ -38,7 +42,45 @@
                 justify-self: end;
                 color: royalblue;
                 background-color: white;
+
+                .profile {
+                    order: 2;
+                    background-color: rgba(65, 105, 225, 0.85);
+                }
+
+                .name {
+                    left: auto;
+                    right: 0;
+                    text-align: right;
+                }
             }
+
+            .profile {
+                width: 1.5rem;
+                height: 1.5rem;
+                border-radius: 100vw;
+                background-color: whitesmoke;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            .name {
+                position: absolute;
+                left: 0;
+                bottom: 100%;
+                font-size: 15px;
+                font-weight: bold;
+                width: 200%;
+                color: royalblue;
+            }
+
+            .message {
+                max-width: 500px;
+            }
+
         }
     }
 }

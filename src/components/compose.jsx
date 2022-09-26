@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { auth, sendMessage } from "./../services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 const Compose = () => {
-  const [uid, setUid] = useState();
+  const [user, setUser] = useState();
   const [message, setMessage] = useState("");
+  const inputRef = useRef();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      setUid(user.uid);
+      setUser(user);
     });
   }, []);
 
@@ -17,14 +18,25 @@ const Compose = () => {
   };
 
   const handleSend = () => {
-    sendMessage(uid, message);
+    if (message === "") return;
+    const id = user.uid;
+    const name = user.displayName;
+    const profileImg = user.photoURL;
+
+    sendMessage({ id, name, profileImg }, message);
     setMessage("");
+    inputRef.current.focus();
   };
 
   return (
     <div className="compose-container">
       <div className="compose">
-        <input type="text" onChange={handleType} value={message} />
+        <input
+          type="text"
+          ref={inputRef}
+          onChange={handleType}
+          value={message}
+        />
 
         <button onClick={handleSend}>send</button>
       </div>

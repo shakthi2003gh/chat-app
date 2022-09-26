@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { auth } from "./../services/firebase";
+import { auth, messagesColRef } from "./../services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { getMessages } from "../services/firebase";
+import { onSnapshot, orderBy, query } from "firebase/firestore";
 
 const ChatArea = () => {
   const [uid, setUid] = useState();
@@ -9,32 +9,41 @@ const ChatArea = () => {
   const scrollDownRef = useRef();
 
   useEffect(() => {
-    async function setmessage() {
-      const messages = await getMessages();
-      setMessages(messages);
-    }
+    const orderByRef = orderBy("createAt");
+    const queryRef = query(messagesColRef, orderByRef);
 
     onAuthStateChanged(auth, (user) => {
       setUid(user.uid);
     });
 
-    setmessage();
-    scrollDownRef.current.scrollIntoView({ behavior: "smooth" });
+    onSnapshot(queryRef, (snapshot) => {
+      const messages = snapshot.docs.map((doc) => doc.data());
+      setMessages(messages);
+    });
   }, []);
+
+  useEffect(() => {
+    scrollDownRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className="chat">
       <div className="messages">
-        {messages.map((message, index) => (
-          <span
-            key={index}
-            className={"message " + (message.id === uid ? "send" : "received")}
-          >
-            {message.text}
-          </span>
-        ))}
-      </div>
+        {messages.map((message, index) => {
+          const classname =
+            "message-group " + (message.id === uid ? "send" : "received");
 
+          return (
+            <div key={index} className={classname}>
+              <div className="profile">
+                <img src={message.profileImg} alt="" />
+              </div>
+              <div className="name">{message.name}</div>
+              <span className="message">{message.text}</span>
+            </div>
+          );
+        })}
+      </div>
       <div ref={scrollDownRef}></div>
     </div>
   );
