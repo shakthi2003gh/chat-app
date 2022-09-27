@@ -1,7 +1,8 @@
 .compose-container {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 100vw;
+    min-width: 375px;
     color: white;
     background-color: royalblue;
 
